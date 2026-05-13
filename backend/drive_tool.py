@@ -1,12 +1,13 @@
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
-
+from dotenv import load_dotenv
+import os
+load_dotenv()
 SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
 
 SERVICE_ACCOUNT_FILE = 'service-account.json'
 
-FOLDER_ID = "1qkx58doSeYrcLjHPDysJyVJ36PsSqqlt"
-
+FOLDER_ID = os.getenv("FOLDER_ID")
 creds = service_account.Credentials.from_service_account_file(
     SERVICE_ACCOUNT_FILE,
     scopes=SCOPES
@@ -34,11 +35,11 @@ def search_drive(query):
     for file in files:
         output.append(
     f"""
-📄 **{file['name']}**
+### 📄 {file['name']}
 
-- Type: {file['mimeType']}
-- Modified: {file['modifiedTime']}
-- [Open File]({file['webViewLink']})
+- **Type:** {file['mimeType']}
+- **Modified:** {file['modifiedTime']}
+- 🔗 [Open File]({file['webViewLink']})
 
 ---
 """
